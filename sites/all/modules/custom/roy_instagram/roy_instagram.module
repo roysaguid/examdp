@@ -18,27 +18,53 @@ $items;
 
 function roy_instagram_form($form, &$form_state) {
   
-  $form['price'] = array(
-    '#type' => 'textfield', //you can find a list of available types in the form api
-    '#title' => 'What is Your Price?',
-    '#size' => 10,
-    '#maxlength' => 10,
-    '#required' => TRUE, //make this field required 
-  );
+  //$form['price'] = array(
+  //  '#type' => 'textfield', //you can find a list of available types in the form api
+  //  '#title' => 'Input Positive Number',
+  //  '#size' => 10,
+  //  '#maxlength' => 10,
+  //  '#required' => TRUE, //make this field required 
+  //);
   
-  $form['submit_button'] = array(
-    '#type' => 'label',
-    '#value' => t('Click Here!'),
-	'#title' => 'sample label'
-  );
-  
+  //$form['submit_button'] = array(
+  //  '#type' => 'submit',
+  //  '#value' => t('Click Here!'),
+//	'#title' => 'sample label'
+//  );
+
+	$url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+	//$full_url = url($url, array('query' => $data));
+	//$roy_get_request = drupal_http_request($url);
+	$insta_result = drupal_http_request($url);
+	$roy_json = drupal_json_decode($insta_result->data, true);
+	$i=0;
+	foreach($roy_json['data'] as $info) {
+		//echo $info[0]['images']['standard_resolution']['url'];
+		$imgpath = $info['images']['standard_resolution']['url'];
+  		$form['test_image_markup'][$i] = array(
+			'#markup' => '<img src="'.$imgpath.'"/>' 
+  		);
+		$i += 1;
+	}
+	//echo $i;
+	//dpm($info[0]);
+	//echo $roy_get_request;
+	//echo 'sdad';
+	
+  //$imgpath = 'http://storage2.static.itmages.com/i/15/1001/h_1443669059_1381872_6e8a236c63.jpeg';
+  //$form['test_image_markup'] = array(
+//	'#markup' => '<img src="'.$imgpath.'"/>' 
+  //);
+	
   return $form;
 }
 
 function roy_instagram_form_validate($form, &$form_state) {
-	if (!($form_state['values']['price'] > 0)){
+	if (!($form_state['values']['price'] >= 0)){
     form_set_error('price', t('Price must be a positive number.'));
   }
 }
 function roy_instagram_form_submit($form, &$form_state) {
+	//$form_state['rebuild'] = TRUE;
+	form_set_error('price', $form_state['values']['price']);
 }
