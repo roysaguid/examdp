@@ -32,20 +32,62 @@ function roy_instagram_form($form, &$form_state) {
 //	'#title' => 'sample label'
 //  );
 
+	$header1 = array(
+    t('Head 1'),
+    t('Head 2'),
+    t('Head 3')
+  );
+
+  $rows1[] = array(
+    'Value 1.1',
+    'Value 1.3',
+    'Value 1.3',
+  );
+  $rows1[] = array(
+    'Value 2.1',
+    'Value 2.3',
+    'Value 2.3',
+  );
+  $rows1[] = array(
+    'Value 3.1',
+    'Value 3.3',
+    'Value 3.3',
+  );
+  $form['test_table1'] = array(
+    '#markup' => theme('table', array('header' => $header1, 'rows' => $rows1))
+  );	
+	
 	$url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
 	//$full_url = url($url, array('query' => $data));
 	//$roy_get_request = drupal_http_request($url);
 	$insta_result = drupal_http_request($url);
 	$roy_json = drupal_json_decode($insta_result->data, true);
 	$i=0;
+	 
+  
+
 	foreach($roy_json['data'] as $info) {
 		//echo $info[0]['images']['standard_resolution']['url'];
 		$imgpath = $info['images']['standard_resolution']['url'];
-  		$form['test_image_markup'][$i] = array(
+    $caption = $info['caption']['text'];
+
+    $header2 = array(
+      $caption
+    );
+
+		$rows2[$i][] = array(
 			'#markup' => '<img src="'.$imgpath.'"/>' 
-  		);
+  	);
+
+  		//$form['test_image_markup'][$i] = array(
+		//	'#markup' => '<img src="'.$imgpath.'"/>' 
+  		//);
+    $form['test_table2'][$i] = array(
+    '#markup' => theme('table', array('header' => $header2, 'rows' => $rows2[$i]))
+    );
 		$i += 1;
 	}
+	
 	//echo $i;
 	//dpm($info[0]);
 	//echo $roy_get_request;
@@ -56,15 +98,17 @@ function roy_instagram_form($form, &$form_state) {
 //	'#markup' => '<img src="'.$imgpath.'"/>' 
   //);
 	
+	
+
   return $form;
 }
 
-function roy_instagram_form_validate($form, &$form_state) {
-	if (!($form_state['values']['price'] >= 0)){
-    form_set_error('price', t('Price must be a positive number.'));
-  }
-}
-function roy_instagram_form_submit($form, &$form_state) {
-	//$form_state['rebuild'] = TRUE;
-	form_set_error('price', $form_state['values']['price']);
-}
+//function roy_instagram_form_validate($form, &$form_state) {
+//	if (!($form_state['values']['price'] >= 0)){
+//    form_set_error('price', t('Price must be a positive number.'));
+//  }
+//}
+//function roy_instagram_form_submit($form, &$form_state) {
+//	//$form_state['rebuild'] = TRUE;
+//	form_set_error('price', $form_state['values']['price']);
+//}
