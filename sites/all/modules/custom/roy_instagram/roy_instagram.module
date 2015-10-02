@@ -5,15 +5,29 @@ function roy_instagram_menu() {
   
 
 $items['examples/form-example'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'roy instagram', //page title
-    'description' => 'A form to mess around with.',
-    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('roy_instagram_form'), //put the name of the form here
+    'title' => 'roy instagram',
+    'description' => 'roy instagram test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('roy_instagram_form'),
     'access callback' => TRUE
   );
   return 
 
 $items;
+}
+
+function roy_instagram_theme($existing, $type, $theme, $path){
+    return array(
+        'mytheme_header' => array(
+            'template' => 'header',
+            'path' => $path . '/templates',
+            'type' => 'theme',
+            'variables' => array(
+                'title' => NULL,
+                'some_text' => NULL,
+            ),
+        ),
+    );
 }
 
 function roy_instagram_form($form, &$form_state) {
@@ -32,7 +46,7 @@ function roy_instagram_form($form, &$form_state) {
 //	'#title' => 'sample label'
 //  );
 
-	$header1 = array(
+	/*$header1 = array(
     t('Head 1'),
     t('Head 2'),
     t('Head 3')
@@ -55,7 +69,7 @@ function roy_instagram_form($form, &$form_state) {
   );
   $form['test_table1'] = array(
     '#markup' => theme('table', array('header' => $header1, 'rows' => $rows1))
-  );	
+  );	*/
 	
 	$url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
 	//$full_url = url($url, array('query' => $data));
