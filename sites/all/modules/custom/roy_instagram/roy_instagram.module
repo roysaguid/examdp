@@ -2,8 +2,6 @@
 
 function roy_instagram_menu() {
   $items = array();
-  
-
 $items['examples/form-example'] = array( //this creates a URL that will call this form at "examples/form-example"
     'title' => 'roy instagram',
     'description' => 'roy instagram test',
@@ -14,20 +12,6 @@ $items['examples/form-example'] = array( //this creates a URL that will call thi
   return 
 
 $items;
-}
-
-function roy_instagram_theme($existing, $type, $theme, $path){
-    return array(
-        'mytheme_header' => array(
-            'template' => 'header',
-            'path' => $path . '/templates',
-            'type' => 'theme',
-            'variables' => array(
-                'title' => NULL,
-                'some_text' => NULL,
-            ),
-        ),
-    );
 }
 
 function roy_instagram_form($form, &$form_state) {
@@ -78,8 +62,6 @@ function roy_instagram_form($form, &$form_state) {
 	$roy_json = drupal_json_decode($insta_result->data, true);
 	$i=0;
 	 
-  
-
 	foreach($roy_json['data'] as $info) {
 		//echo $info[0]['images']['standard_resolution']['url'];
 		$imgpath = $info['images']['standard_resolution']['url'];
