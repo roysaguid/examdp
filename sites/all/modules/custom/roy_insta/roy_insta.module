@@ -15,7 +15,33 @@ function roy_insta_menu(){
 }
 
 function roy_insta_loadpage(){
-	return theme('load_custom_template');
+
+    $test2 = "testing text from test1";
+
+    $url = 'https://api.instagram.com/v1/tags/nature/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+    $insta_result = drupal_http_request($url);
+    $roy_json = drupal_json_decode($insta_result->data, true);
+    $j=0;
+
+    //$insta['imgpath'] = array();
+    //$insta['caption'] = array();
+
+    $insta = array();
+
+    foreach($roy_json['data'] as $info) {
+    
+        $imgpath = $info['images']['standard_resolution']['url'];
+        $caption = $info['caption']['text'];
+
+        $insta['imgpath'][] = $imgpath;
+        $insta['caption'][] = $caption;
+
+        //echo $caption."</br>";
+        //echo "<img src='$imgpath' />"."</br></br></br>";
+        $j += 1;
+    }
+
+	return theme('load_custom_template', array('insta' => $insta));
 }
 
 function roy_insta_theme(){

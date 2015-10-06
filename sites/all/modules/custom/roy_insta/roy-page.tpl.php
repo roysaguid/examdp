@@ -4,19 +4,39 @@
 // 	$form['test_image_markup'] = array(
 //	'#markup' => '<img src="'.$imgpath.'"/>' 
 //  );
+	//echo $insta['imgpath'][0];
+	//echo $insta['caption'][0];
+	//echo "asdad";
 
-	$url = 'https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-	$insta_result = drupal_http_request($url);
-	$roy_json = drupal_json_decode($insta_result->data, true);
-	$i=0;
-	 
-	foreach($roy_json['data'] as $info) {
+	//$url = 'https://api.instagram.com/v1/tags/sexy/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+	//$insta_result = drupal_http_request($url);
+	//$roy_json = drupal_json_decode($insta_result->data, true);
+	//$i=0;
 	
-		$imgpath = $info['images']['standard_resolution']['url'];
-	    $caption = $info['caption']['text'];
+	//echo count($insta['imgpath']);
 
+	for ($i = 0; $i < count($insta['imgpath']); $i++) {
+    	//echo "The number is: $x <br>";
+    	$imgpath = $insta['imgpath'][$i];//$info['images']['standard_resolution']['url'];
+	    $caption = $insta['caption'][$i];//$info['caption']['text'];
+		//echo $feeds['imgpath'];
+	//	echo $feeds['caption'];
 	    echo $caption."</br>";
 	    echo "<img src='$imgpath' />"."</br></br></br>";
-		$i += 1;
-	}
+	} 
+
+	//$feeds = array();
+	//foreach($insta as $feeds) {
+		
+	//	echo $feeds['imgpath'][0];
+		//$imgpath = $feeds['imgpath'][1];//$info['images']['standard_resolution']['url'];
+	    //$caption = $feeds['caption'][1];//$info['caption']['text'];
+		//echo $feeds['imgpath'];
+	//	echo $feeds['caption'];
+	    //echo $caption."</br>";
+	    //echo "<img src='$imgpath' />"."</br></br></br>";
+	//	$i += 1;
+	//}
+
+
 
