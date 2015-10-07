@@ -31,32 +31,19 @@ function roy_insta_loadpage($form, &$form_state){
         '#value' => t('Search'),
           '#title' => 'Search'
       );
-
-      return $form;
-
     
-}
 
-function roy_insta_theme(){
-    return array(
-        'load_custom_template' => array(
-            // load template roy-page.tpl.php
-            'template' => 'roy-page',
-        ),
-    );
-}
+      if (isset($form_state['filter'])){
+        echo $form_state['values']['searchtag'];
+      }
+      
+    $url = 'https://api.instagram.com/v1/tags/nature/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+    if (isset($form_state['filter'])) {
+        $url = $form_state['url'];
+    }
 
-function roy_insta_loadpage_submit($form, &$form_state) {
-    //if (!($form_state['values']['price'] >= 0)){
-    $searchtag = $form_state['values']['searchtag'];
-    $url = 'https://api.instagram.com/v1/tags/'.$searchtag.'/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-
-    form_set_error('searchtag', t('Searching for tags with '.$url));
-
-    //$test2 = "testing text from test1";
-
-    //$url = 'https://api.instagram.com/v1/tags/nature/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-    echo $url;
+    //echo $url;
+      
     $insta_result = drupal_http_request($url);
     $roy_json = drupal_json_decode($insta_result->data, true);
     $j=0;
@@ -79,7 +66,39 @@ function roy_insta_loadpage_submit($form, &$form_state) {
         $j += 1;
     }
 
-    return theme('load_custom_template', array('insta' => $insta));
+
+    $form['roy_insta_table'] = array(
+    '#markup' => theme('load_custom_template', array('insta' => $insta))
+    );
+
+      return $form;
+
+    
+}
+
+function roy_insta_theme(){
+    return array(
+        'load_custom_template' => array(
+            // load template roy-page.tpl.php
+            'template' => 'roy-page',
+        ),
+    );
+}
+
+function roy_insta_loadpage_submit($form, &$form_state) {
+    //if (!($form_state['values']['price'] >= 0)){
+    //$form_state['values']['searchtag'] = "test pass";
+    $searchtag = $form_state['values']['searchtag'];
+    $url = 'https://api.instagram.com/v1/tags/'.$searchtag.'/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+
+    $form_state['url'] = $url;
+    form_set_error('searchtag', t('Searching for tags with '.$url));
+
+    //$test2 = "testing text from test1";
+
+    
+//    theme('load_custom_template', array('insta' => $insta));
+     $form_state['rebuild'] = TRUE; 
 
   //}
 }
