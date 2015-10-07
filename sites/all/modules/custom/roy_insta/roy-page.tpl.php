@@ -40,3 +40,9 @@
 
 
 
+
+/*
+<?php foreach($data as $item): ?>
+  <div class=“item”><img src=“<?php print $item[‘souce’]; ?>” /></div>
+<?php endforeach; ?>
+*/

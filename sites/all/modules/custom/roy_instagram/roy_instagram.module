@@ -16,19 +16,19 @@ $items;
 
 function roy_instagram_form($form, &$form_state) {
   
-  //$form['price'] = array(
-  //  '#type' => 'textfield', //you can find a list of available types in the form api
-  //  '#title' => 'Input Positive Number',
-  //  '#size' => 10,
-  //  '#maxlength' => 10,
-  //  '#required' => TRUE, //make this field required 
-  //);
+  $form['price'] = array(
+  '#type' => 'textfield', //you can find a list of available types in the form api
+  '#title' => 'Input Positive Number',
+  '#size' => 10,
+  '#maxlength' => 10,
+  '#required' => TRUE, //make this field required 
+  );
   
-  //$form['submit_button'] = array(
-  //  '#type' => 'submit',
-  //  '#value' => t('Click Here!'),
-//	'#title' => 'sample label'
-//  );
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Click Here!'),
+	  '#title' => 'sample label'
+  );
 
 	/*$header1 = array(
     t('Head 1'),
@@ -99,12 +99,13 @@ function roy_instagram_form($form, &$form_state) {
   return $form;
 }
 
-//function roy_instagram_form_validate($form, &$form_state) {
-//	if (!($form_state['values']['price'] >= 0)){
-//    form_set_error('price', t('Price must be a positive number.'));
-//  }
-//}
-//function roy_instagram_form_submit($form, &$form_state) {
-//	//$form_state['rebuild'] = TRUE;
-//	form_set_error('price', $form_state['values']['price']);
-//}
+function roy_instagram_form_validate($form, &$form_state) {
+	if (!($form_state['values']['price'] >= 0)){
+    form_set_error('price', t('Price must be a positive number.'));
+  }
+}
+
+function roy_instagram_form_submit($form, &$form_state) {
+	$form_state['rebuild'] = TRUE;
+	form_set_error('price', $form_state['values']['price']);
+}
