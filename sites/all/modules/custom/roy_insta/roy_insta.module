@@ -22,7 +22,7 @@ function roy_insta_loadpage($form, &$form_state){
       '#type' => 'textfield',
       '#title' => 'Search a Tag',
       '#size' => 10,
-      '#maxlength' => 10,
+      '#maxlength' => 50,
       '#required' => TRUE,
       );
       
