@@ -31,49 +31,31 @@ function roy_insta_loadpage($form, &$form_state){
         '#value' => t('Search'),
           '#title' => 'Search'
       );
-    
-
-      if (isset($form_state['filter'])){
-        echo $form_state['values']['searchtag'];
-      }
       
     $url = 'https://api.instagram.com/v1/tags/nature/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-    if (isset($form_state['filter'])) {
-        $url = $form_state['url'];
-    }
 
-    //echo $url;
+    if (isset($form_state['txttag'])) {
+        $url = 'https://api.instagram.com/v1/tags/'.$form_state['txttag'].'/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
+    }
       
     $insta_result = drupal_http_request($url);
     $roy_json = drupal_json_decode($insta_result->data, true);
-    $j=0;
-
-    //$insta['imgpath'] = array();
-    //$insta['caption'] = array();
 
     $insta = array();
-
     foreach($roy_json['data'] as $info) {
     
         $imgpath = $info['images']['standard_resolution']['url'];
         $caption = $info['caption']['text'];
 
-        $insta['imgpath'][] = $imgpath;
-        $insta['caption'][] = $caption;
-
-        //echo $caption."</br>";
-        //echo "<img src='$imgpath' />"."</br></br></br>";
-        $j += 1;
+        $insta[] = array(
+            'imgpath' => $imgpath,
+            'caption' => $caption
+        );
     }
-
-
     $form['roy_insta_table'] = array(
     '#markup' => theme('load_custom_template', array('insta' => $insta))
     );
-
       return $form;
-
-    
 }
 
 function roy_insta_theme(){
@@ -86,27 +68,7 @@ function roy_insta_theme(){
 }
 
 function roy_insta_loadpage_submit($form, &$form_state) {
-    //if (!($form_state['values']['price'] >= 0)){
-    //$form_state['values']['searchtag'] = "test pass";
     $searchtag = $form_state['values']['searchtag'];
-    $url = 'https://api.instagram.com/v1/tags/'.$searchtag.'/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-
-    $form_state['url'] = $url;
-    form_set_error('searchtag', t('Searching for tags with '.$url));
-
-    //$test2 = "testing text from test1";
-
-    
-//    theme('load_custom_template', array('insta' => $insta));
-     $form_state['rebuild'] = TRUE; 
-
-  //}
+    $form_state['txttag'] = $searchtag;
+    $form_state['rebuild'] = TRUE;
 }
-
-//function roy_instagram_loadpage_submit($form, &$form_state) {
-//    $form_state['rebuild'] = TRUE;
-    //form_set_error('price', $form_state['values']['price']);
-//    $searchtag = $form_state['values']['searchtag'];
-//    $url = 'https://api.instagram.com/v1/tags/'.$searchtag.'/media/recent?client_id=c009ac352f59439ab860fb57958e54c9';
-//    form_set_error('searchtag', $form_state['values']['searchtag'].' asdasd '.$url);
-//}
