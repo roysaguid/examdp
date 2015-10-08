@@ -1,34 +1,42 @@
+<script>
+function showHint(str) {
+  var x = document.getElementById(str).src;
+  document.getElementById("imgoverlay").src = x;
+  //alert(str);
+}
+</script>
+
 <!-- Large modal -->
+
+<span id="txtHint"></span>
+
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      ...
+       <img id="imgoverlay" width="100%" />
+       <!--<span id="imgurl"></span>-->
     </div>
   </div>
 </div>
 
-<!-- Small modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div>
 </br></br>
+<?php 
+	//$imgmain = 'imgmain';
+	$i=0;
+?>
 <?php foreach($insta as $item): ?>
   <div class="item"> 
   	<?php print $item['caption']; ?> </br>
-  	<img class="img1" src="<?php print $item['imgpath']; ?>" /> </br> </br>
+  	<?php $imgmain='imgmain'.$i; 
+  	//dpm($imgmain);?>
+  	<img id="<?php echo $imgmain; ?>" data-toggle="modal" data-target=".bs-example-modal-lg" src="<?php print $item['imgpath']; ?>" onclick="showHint(this.id)" /> </br> </br>
+  	<?php $i+=1; ?>
   </div>
 <?php endforeach; ?>
 
 <?php
-
 
 //$imgpath = 'http://storage2.static.itmages.com/i/15/1001/h_1443669059_1381872_6e8a236c63.jpeg';
 // 	$form['test_image_markup'] = array(
