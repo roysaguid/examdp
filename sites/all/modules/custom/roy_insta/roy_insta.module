@@ -40,17 +40,19 @@ function roy_insta_loadpage($form, &$form_state){
       
     $insta_result = drupal_http_request($url);
     $roy_json = drupal_json_decode($insta_result->data, true);
-
+    $i = 0;
     $insta = array();
     foreach($roy_json['data'] as $info) {
     
         $imgpath = $info['images']['standard_resolution']['url'];
         $caption = $info['caption']['text'];
-
+        $imgmain = 'imgmain'.$i;
         $insta[] = array(
             'imgpath' => $imgpath,
-            'caption' => $caption
+            'caption' => $caption,
+            'imgmain' => $imgmain
         );
+        $i+=1;
     }
     $form['roy_insta_table'] = array(
     '#markup' => theme('load_custom_template', array('insta' => $insta))
