@@ -71,6 +71,10 @@ function roy_insta_theme(){
 
 function roy_insta_loadpage_submit($form, &$form_state) {
     $searchtag = $form_state['values']['searchtag'];
+    if (strpos($searchtag, ' ') == true){
+        form_set_error('searchtag',t('space in searching tags is invalid'));
+        $searchtag = 'nature';
+    }
     $form_state['txttag'] = $searchtag;
     $form_state['rebuild'] = TRUE;
 }
